@@ -61,11 +61,11 @@ public class Customer {
     @Override
     public String toString() {
         return "\nCustomer Details\n\n" +
-                "customerId = " + customerId +
-                "\n name = " + name +
-                "\n phone = " + phone +
-                "\n email = " + email +
-                "\n postalCode = " + postalCode;
+                "Customer ID = " + customerId +
+                "\n Name = " + name +
+                "\n Phone = " + phone +
+                "\n Email = " + email +
+                "\n Postal Code = " + postalCode;
     }
 
     @Override

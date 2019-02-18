@@ -27,7 +27,7 @@ public class CustomerListIOFrame extends JInternalFrame {
 
         menu.setMnemonic(KeyEvent.VK_F);
 
-        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('E', InputEvent.CTRL_DOWN_MASK));
+        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_DOWN_MASK));
 
         menu.add(menuItemExit);
 

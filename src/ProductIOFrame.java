@@ -44,7 +44,7 @@ public class ProductIOFrame extends JInternalFrame implements ProductActionClick
 
         menuItemSave.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
         menuItemLoad.setAccelerator(KeyStroke.getKeyStroke('L', CTRL_DOWN_MASK));
-        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('E', CTRL_DOWN_MASK));
+        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('X', CTRL_DOWN_MASK));
 
         menuBar.add(menuFile);
 
@@ -66,7 +66,7 @@ public class ProductIOFrame extends JInternalFrame implements ProductActionClick
             if (e.getSource() == menuItemSave) {
                 try {
                     productDB.writeToFile();
-                    JOptionPane.showMessageDialog(null, "Data written to File.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -74,7 +74,7 @@ public class ProductIOFrame extends JInternalFrame implements ProductActionClick
                 try {
                     ArrayList<Product> tempList = productDB.fetchToArrayList();
                     productDB.setProductList(tempList);
-                    JOptionPane.showMessageDialog(null, "Data loaded to ArrayList.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Fetched.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException | RangeException ex) {
                     Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }

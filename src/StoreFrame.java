@@ -68,8 +68,8 @@ public class StoreFrame extends JFrame {
         menu.setMnemonic(KeyEvent.VK_O);
         menuItemProducts.setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.CTRL_DOWN_MASK));
         menuItemCustomers.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
-        menuItemCustomersList.setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.CTRL_DOWN_MASK));
-        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('E', InputEvent.CTRL_DOWN_MASK));
+        menuItemCustomersList.setAccelerator(KeyStroke.getKeyStroke('L', InputEvent.CTRL_DOWN_MASK));
+        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_DOWN_MASK));
 
         this.setJMenuBar(menuBar);
         desktopPane = new JDesktopPane();

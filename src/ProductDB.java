@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
  * @author Harshil
  */
 public class ProductDB {

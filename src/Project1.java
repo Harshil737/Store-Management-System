@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-import javax.swing.*;
-
 /**
  * @author Harshil
  */

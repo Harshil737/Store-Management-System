@@ -36,7 +36,7 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
 
         menuItemSave.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         menuItemLoad.setAccelerator(KeyStroke.getKeyStroke('L', InputEvent.CTRL_DOWN_MASK));
-        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('E', InputEvent.CTRL_DOWN_MASK));
+        menuItemExit.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_DOWN_MASK));
 
         menu.add(menuItemSave);
         menu.add(menuItemLoad);
@@ -61,7 +61,7 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
             if (e.getSource() == menuItemSave) {
                 try {
                     customerDB.writeToFile();
-                    JOptionPane.showMessageDialog(null, "Data written to File.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
@@ -70,7 +70,7 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
                 try {
                     ArrayList<Customer> customers = customerDB.fetchToArrayList();
                     customerDB.setList(customers);
-                    JOptionPane.showMessageDialog(null, "Data loaded to ArrayList.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Fetched.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
