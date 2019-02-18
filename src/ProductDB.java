@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ *
  * @author Harshil
  */
 public class ProductDB {
@@ -64,8 +65,8 @@ public class ProductDB {
 
     public void writeToFile() throws FileNotFoundException {
         PrintWriter out = new PrintWriter(new FileOutputStream(file, false));
-        for (int i = 0; i < productList.size(); i++) {
-            out.println(productList.get(i).getProductId() + ":" + productList.get(i).getProductName() + ":" + productList.get(i).getProductPrice() + ":" + productList.get(i).getProductQty());
+        for (Product product : productList) {
+            out.println(product.getProductId() + ":" + product.getProductName() + ":" + product.getProductPrice() + ":" + product.getProductQty());
         }
         out.close();
     }
@@ -95,13 +96,10 @@ public class ProductDB {
         return true;
     }
 
-    public Product getProductAtIndex(int index) {
-        return this.productList.get(index);
-    }
-
     public void updateProductAtIndex(Product p) throws FileNotFoundException, RangeException {
         this.productList = fetchToArrayList();
         this.productList.set(productList.indexOf(p), p);
         writeToFile();
     }
+
 }

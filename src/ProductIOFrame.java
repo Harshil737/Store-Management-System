@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,28 +9,26 @@ import java.util.logging.Logger;
 
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
-/**
- * @author Harshil
- */
-public class MyFrame extends JFrame implements ProductGUI.productActionClickListner {
+public class ProductIOFrame extends JInternalFrame implements ProductActionClickListner {
 
+    private JPanel productIOGUI;
     private JMenuBar menuBar;
     private JMenu menuFile;
     private JMenuItem menuItemLoad;
     private JMenuItem menuItemSave;
     private JMenuItem menuItemExit;
     private ProductDB productDB;
-    private ProductGUI productGUI;
 
-    public MyFrame() {
+    public ProductIOFrame(ProductGUI product) {
         this.productDB = new ProductDB();
-        ;
-
-        this.setLayout(new GridLayout(1, 2));
-        productGUI = new ProductGUI();
-        productGUI.setActionClickListner(this);
-
-        this.add(productGUI);
+        productIOGUI = product;
+        ((ProductGUI) productIOGUI).setActionClickListner(this);
+        this.add(productIOGUI);
+        this.setSize(400, 200);
+        this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
+        this.setClosable(true);
+        this.setResizable(true);
 
         menuBar = new JMenuBar();
         menuFile = new JMenu("File");
@@ -66,38 +57,6 @@ public class MyFrame extends JFrame implements ProductGUI.productActionClickList
         this.setSize(700, 300);
         this.setTitle("Project");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
-    }
-
-    @Override
-    public void onProductAddClick(Product p) {
-        productDB.addProduct(p);
-    }
-
-    @Override
-    public void onProductUpdate(Product p) {
-        try {
-            this.productDB.updateProductAtIndex(p);
-        } catch (FileNotFoundException | RangeException ex) {
-            Logger.getLogger(MyFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public boolean checkProductIdAvailable(int id) {
-        return productDB.checkProductIdAvailable(id);
-    }
-
-    @Override
-    public Product onProductFind(int id) {
-        Product p = null;
-        try {
-            p = productDB.findProduct(id);
-        } catch (FileNotFoundException | RangeException ex) {
-            Logger.getLogger(MyFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return p;
     }
 
     class EventHandler implements ActionListener {
@@ -107,19 +66,51 @@ public class MyFrame extends JFrame implements ProductGUI.productActionClickList
             if (e.getSource() == menuItemSave) {
                 try {
                     productDB.writeToFile();
+                    JOptionPane.showMessageDialog(null, "Data written to File.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MyFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (e.getSource() == menuItemLoad) {
                 try {
                     ArrayList<Product> tempList = productDB.fetchToArrayList();
                     productDB.setProductList(tempList);
+                    JOptionPane.showMessageDialog(null, "Data loaded to ArrayList.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException | RangeException ex) {
-                    Logger.getLogger(MyFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (e.getSource() == menuItemExit) {
-                System.exit(0);
+                dispose();
             }
         }
+    }
+
+    @Override
+    public void onProductAddClick(Product p) {
+        productDB.addProduct(p);
+    }
+
+    @Override
+    public Product onProductFind(int id) {
+        Product p = null;
+        try {
+            p = productDB.findProduct(id);
+        } catch (FileNotFoundException | RangeException ex) {
+            Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
+    }
+
+    @Override
+    public void onProductUpdate(Product p) {
+        try {
+            this.productDB.updateProductAtIndex(p);
+        } catch (FileNotFoundException | RangeException ex) {
+            Logger.getLogger(ProductIOFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public boolean checkProductIdAvailable(int id) {
+        return productDB.checkProductIdAvailable(id);
     }
 }

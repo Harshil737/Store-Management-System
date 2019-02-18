@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ *
  * @author Harshil
  */
 public class ProductGUI extends JPanel {
@@ -17,8 +18,7 @@ public class ProductGUI extends JPanel {
     private JLabel lblProductID, lblProductName, lblProductPrice, lblQty;
     private JTextField txtProductID, txtProductName, txtProductPrice, txtQty;
     private JButton btnAdd, btnUpdate, btnFind, btnReset;
-    private JMenuBar menu = new JMenuBar();
-    private productActionClickListner actionClickListner = null;
+    private ProductActionClickListner actionClickListner = null;
 
     public ProductGUI() {
         lblProductID = new JLabel("Product ID");
@@ -58,7 +58,7 @@ public class ProductGUI extends JPanel {
         this.add(btnReset);
     }
 
-    public void setActionClickListner(productActionClickListner actionClickListner) {
+    public void setActionClickListner(ProductActionClickListner actionClickListner) {
         this.actionClickListner = actionClickListner;
     }
 
@@ -178,16 +178,5 @@ public class ProductGUI extends JPanel {
         btnAdd.setEnabled(true);
         btnFind.setEnabled(true);
         txtProductID.setEnabled(true);
-    }
-
-    public interface productActionClickListner {
-
-        void onProductAddClick(Product p);
-
-        Product onProductFind(int id);
-
-        void onProductUpdate(Product p);
-
-        boolean checkProductIdAvailable(int id);
     }
 }

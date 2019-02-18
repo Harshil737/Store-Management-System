@@ -5,6 +5,7 @@
  */
 
 /**
+ *
  * @author Harshil
  */
 public class Product {
