@@ -1,20 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class CustomersList extends JPanel {
+class CustomersList extends JPanel {
     private JLabel lblFullName;
     private JComboBox cmbNames;
     private JTextArea txtOutput;
-    private String fileName = "customers.txt";
     private ArrayList<Customer> customerList = new ArrayList();
 
-    public CustomersList() throws FileNotFoundException {
+    CustomersList() {
         lblFullName = new JLabel("Name: ");
         cmbNames = new JComboBox();
         txtOutput = new JTextArea();
@@ -26,29 +24,28 @@ public class CustomersList extends JPanel {
         this.add(northPanel, BorderLayout.NORTH);
         this.add(txtOutput, BorderLayout.CENTER);
         this.loadNames();
-        cmbNames.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                txtOutput.setText(customerList.get(CustomersList.this.cmbNames.getSelectedIndex()).toString());
-            }
-        });
+        cmbNames.addItemListener(e -> txtOutput.setText(customerList.get(CustomersList.this.cmbNames.getSelectedIndex()).toString()));
     }
 
-    private void loadNames() throws FileNotFoundException {
-        File file = new File("customers.txt");
-        Scanner s = new Scanner(file);
-        String search = "";
-        String[] searchSplit = new String[4];
+    private void loadNames() {
+        File file = new File("Customers.txt");
+        String search;
+        String[] searchSplit;
         Customer c = new Customer();
-        while (s.hasNextLine()) {
-            search = s.nextLine();
-            if (!search.isEmpty()) {
-                searchSplit = search.split(":");
-                c = new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]);
-                customerList.add(c);
-                cmbNames.addItem(c.getName());
+
+        if (file.exists()) {
+            try {
+                DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+                while (inputStream.available() > 0) {
+                    search = inputStream.readUTF();
+                    searchSplit = search.split(":");
+                    c = new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]);
+                    customerList.add(c);
+                    cmbNames.addItem(c.getName());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
     }
 }

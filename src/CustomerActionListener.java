@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface CustomerActionListener {
     void onCustomerAddClick(Customer c);
@@ -7,5 +8,5 @@ public interface CustomerActionListener {
 
     Customer onCustomerFindClick(int id) throws FileNotFoundException;
 
-    void onCustomerUpdateClick(Customer c) throws FileNotFoundException;
+    void onCustomerUpdateClick(Customer c) throws IOException;
 }

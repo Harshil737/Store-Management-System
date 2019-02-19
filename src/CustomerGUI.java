@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CustomerGUI extends JPanel {
     private JLabel lblCustomerID, lblName, lblPhone, lblEmail, lblPostalCode;
@@ -115,7 +116,7 @@ public class CustomerGUI extends JPanel {
                     actionListener.onCustomerUpdateClick(c);
                     JOptionPane.showMessageDialog(null, "Customer updated.");
                     reset();
-                } catch (FileNotFoundException e1) {
+                } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             } else if (e.getSource() == btnReset) {

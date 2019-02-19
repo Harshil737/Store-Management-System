@@ -1,17 +1,13 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class CustomerDB {
 
-    File file = null;
-    ArrayList<Customer> list;
+    File file;
+    private ArrayList<Customer> list;
 
-    public CustomerDB() {
-        file = new File("customers.txt");
+    CustomerDB() {
+        file = new File("Customers.txt");
         list = new ArrayList<>();
     }
 
@@ -32,15 +28,15 @@ public class CustomerDB {
         return list;
     }
 
-    public void setList(ArrayList<Customer> list) {
+    void setList(ArrayList<Customer> list) {
         this.list = list;
     }
 
-    public void addCustomer(Customer c) {
+    void addCustomer(Customer c) {
         this.list.add(c);
     }
 
-    public boolean checkCustomerIdAvailable(int id) {
+    boolean checkCustomerIdAvailable(int id) {
         for (Customer customer : this.list) {
             if (customer.getCustomerId() == id) {
                 return false;
@@ -49,47 +45,59 @@ public class CustomerDB {
         return true;
     }
 
-    public void writeToFile() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(new FileOutputStream(file, false));
+    void writeToFile() throws IOException {
+        DataOutputStream stream;
+        stream = new DataOutputStream(new FileOutputStream(file));
         for (Customer customer : list) {
-            writer.println(customer.getCustomerId() + ":" + customer.getName() + ":" + customer.getPhone() + ":" + customer.getEmail() + ":" + customer.getPostalCode());
+            stream.writeUTF(customer.getCustomerId() + ":" + customer.getName() + ":" + customer.getPhone() + ":" + customer.getEmail() + ":" + customer.getPostalCode());
         }
-        writer.close();
+        stream.close();
     }
 
-    public Customer findCustomer(int id) throws FileNotFoundException {
+    Customer findCustomer(int id) {
         Customer c = null;
-        Scanner s = new Scanner(file);
-        String search = "";
-        String[] searchSplit = new String[5];
-        while (s.hasNextLine()) {
-            search = s.nextLine();
-            if (!search.isEmpty()) {
-                searchSplit = search.split(":");
-                if (Integer.parseInt(searchSplit[0]) == id) {
-                    c = new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]);
+        String search;
+        String[] searchSplit;
+
+        if (file.exists()) {
+            try {
+                DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+                while (inputStream.available() > 0) {
+                    search = inputStream.readUTF();
+                    searchSplit = search.split(":");
+                    if (Integer.parseInt(searchSplit[0]) == id) {
+                        c = new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]);
+                        break;
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return c;
     }
 
-    ArrayList<Customer> fetchToArrayList() throws FileNotFoundException {
-        Scanner s = new Scanner(file);
-        String search = "";
-        String[] searchSplit = new String[5];
+    ArrayList<Customer> fetchToArrayList() {
+        String search;
+        String[] searchSplit;
         ArrayList<Customer> list = new ArrayList<>();
-        while (s.hasNextLine()) {
-            search = s.nextLine();
-            if (!search.isEmpty()) {
-                searchSplit = search.split(":");
-                list.add(new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]));
+
+        if (file.exists()) {
+            try {
+                DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+                while (inputStream.available() > 0) {
+                    search = inputStream.readUTF();
+                    searchSplit = search.split(":");
+                    list.add(new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return list;
     }
 
-    public void updateCustomerAtIndex(Customer c) throws FileNotFoundException {
+    void updateCustomerAtIndex(Customer c) throws IOException {
         this.list = fetchToArrayList();
         this.list.set(list.indexOf(c), c);
         writeToFile();

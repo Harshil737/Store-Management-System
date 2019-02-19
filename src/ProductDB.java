@@ -20,7 +20,7 @@ public class ProductDB {
     ArrayList<Product> productList;
 
     public ProductDB() {
-        file = new File("products.txt");
+        file = new File("Products.txt");
         productList = new ArrayList<>();
     }
 
