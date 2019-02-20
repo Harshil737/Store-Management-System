@@ -4,36 +4,44 @@ import java.util.ArrayList;
 /**
  * @author Harshil
  */
-public class ProductDB {
+public class CustomerDB {
 
     File file;
-    private ArrayList<Product> productList;
+    private ArrayList<Customer> list;
 
-    ProductDB() {
-        file = new File("Products.txt");
-        productList = new ArrayList<>();
+    CustomerDB() {
+        file = new File("Customers.txt");
+        list = new ArrayList<>();
     }
 
-    public ProductDB(File file, ArrayList<Product> products) {
+    public CustomerDB(File file, ArrayList<Customer> list) {
         this.file = file;
-        this.productList = products;
+        this.list = list;
     }
 
-    public ArrayList<Product> getProductList() {
-        return productList;
+    public File getFile() {
+        return file;
     }
 
-    void setProductList(ArrayList<Product> productList) {
-        this.productList = productList;
+    public void setFile(File file) {
+        this.file = file;
     }
 
-    void addProduct(Product p) {
-        this.productList.add(p);
+    public ArrayList<Customer> getList() {
+        return list;
     }
 
-    boolean checkProductIdAvailable(int id) {
-        for (Product p : this.productList) {
-            if (p.getProductId() == id) {
+    void setList(ArrayList<Customer> list) {
+        this.list = list;
+    }
+
+    void addCustomer(Customer c) {
+        this.list.add(c);
+    }
+
+    boolean checkCustomerIdAvailable(int id) {
+        for (Customer customer : this.list) {
+            if (customer.getCustomerId() == id) {
                 return false;
             }
         }
@@ -43,14 +51,14 @@ public class ProductDB {
     void writeToFile() throws IOException {
         DataOutputStream stream;
         stream = new DataOutputStream(new FileOutputStream(file));
-        for (Product product : productList) {
-            stream.writeUTF(product.getProductId() + ":" + product.getProductName() + ":" + product.getProductPrice() + ":" + product.getProductQty());
+        for (Customer customer : list) {
+            stream.writeUTF(customer.getCustomerId() + ":" + customer.getName() + ":" + customer.getPhone() + ":" + customer.getEmail() + ":" + customer.getPostalCode());
         }
         stream.close();
     }
 
-    Product findProduct(int id) {
-        Product p = null;
+    Customer findCustomer(int id) {
+        Customer c = null;
         String search;
         String[] searchSplit;
 
@@ -61,7 +69,7 @@ public class ProductDB {
                     search = inputStream.readUTF();
                     searchSplit = search.split(":");
                     if (Integer.parseInt(searchSplit[0]) == id) {
-                        p = new Product(Integer.parseInt(searchSplit[0]), searchSplit[1], Double.parseDouble(searchSplit[2]), Integer.parseInt(searchSplit[3]));
+                        c = new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]);
                         break;
                     }
                 }
@@ -69,14 +77,13 @@ public class ProductDB {
                 e.printStackTrace();
             }
         }
-        return p;
+        return c;
     }
 
-
-    ArrayList<Product> fetchToArrayList() {
+    ArrayList<Customer> fetchToArrayList() {
         String search;
         String[] searchSplit;
-        ArrayList<Product> list = new ArrayList<>();
+        ArrayList<Customer> list = new ArrayList<>();
 
         if (file.exists()) {
             try {
@@ -84,7 +91,7 @@ public class ProductDB {
                 while (inputStream.available() > 0) {
                     search = inputStream.readUTF();
                     searchSplit = search.split(":");
-                    list.add(new Product(Integer.parseInt(searchSplit[0]), searchSplit[1], Double.parseDouble(searchSplit[2]), Integer.parseInt(searchSplit[3])));
+                    list.add(new Customer(Integer.parseInt(searchSplit[0]), searchSplit[1], searchSplit[2], searchSplit[3], searchSplit[4]));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -93,10 +100,9 @@ public class ProductDB {
         return list;
     }
 
-    void updateProductAtIndex(Product p) throws IOException {
-        this.productList = fetchToArrayList();
-        this.productList.set(productList.indexOf(p), p);
+    void updateCustomerAtIndex(Customer c) throws IOException {
+        this.list = fetchToArrayList();
+        this.list.set(list.indexOf(c), c);
         writeToFile();
     }
-
 }
