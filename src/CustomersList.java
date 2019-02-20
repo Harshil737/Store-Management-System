@@ -10,7 +10,7 @@ class CustomersList extends JPanel {
     private JLabel lblFullName;
     private JComboBox cmbNames;
     private JTextArea txtOutput;
-    private ArrayList<Customer> customerList = new ArrayList();
+    private ArrayList<Customer> customerList = new ArrayList<>();
 
     CustomersList() {
         lblFullName = new JLabel("Name: ");
@@ -31,7 +31,7 @@ class CustomersList extends JPanel {
         File file = new File("Customers.txt");
         String search;
         String[] searchSplit;
-        Customer c = new Customer();
+        Customer c;
 
         if (file.exists()) {
             try {

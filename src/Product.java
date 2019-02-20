@@ -13,55 +13,55 @@ public class Product {
     private double productPrice;
     private String productName;
 
-    public Product() {
+    Product() {
         productId = 0;
         productName = "";
         productPrice = 0.0;
         productQty = 0;
     }
 
-    public Product(int id, String name, double price, int quantity) {
+    Product(int id, String name, double price, int quantity) {
         this.productQty = quantity;
         this.productId = id;
         this.productPrice = price;
         this.productName = name;
     }
 
-    public int getProductQty() {
+    int getProductQty() {
         return productQty;
     }
 
-    public void setProductQty(int productQty) throws RangeException {
+    void setProductQty(int productQty) throws RangeException {
         if (this.productQty < 0) {
             throw new RangeException("Please enter positive value for quantity.");
         }
         this.productQty = productQty;
     }
 
-    public int getProductId() {
+    int getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    void setProductId(int productId) {
         this.productId = productId;
     }
 
-    public double getProductPrice() {
+    double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(double productPrice) throws RangeException {
+    void setProductPrice(double productPrice) throws RangeException {
         if (this.productPrice < 0) {
             throw new RangeException("Please enter positive value for price.");
         }
         this.productPrice = productPrice;
     }
 
-    public String getProductName() {
+    String getProductName() {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    void setProductName(String productName) {
         this.productName = productName;
     }
 

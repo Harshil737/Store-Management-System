@@ -3,13 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class CustomerIOFrame extends JInternalFrame implements CustomerActionListener {
 
-    private JPanel customerIOGUI;
     private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem menuItemLoad;
@@ -17,9 +15,8 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
     private JMenuItem menuItemExit;
     private CustomerDB customerDB;
 
-    public CustomerIOFrame(JPanel customerIOGUI) {
+    CustomerIOFrame(JPanel customerIOGUI) {
         customerDB = new CustomerDB();
-        this.customerIOGUI = customerIOGUI;
         ((CustomerGUI) customerIOGUI).setActionListener(this);
         this.add(customerIOGUI);
         this.setSize(400, 200);

@@ -3,13 +3,13 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
-public class StoreFrame extends JFrame {
+class StoreFrame extends JFrame {
     private JMenu menu;
     private JMenuBar menuBar;
     private JMenuItem menuItemProducts, menuItemCustomers, menuItemExit, menuItemCustomersList;
     private JDesktopPane desktopPane;
 
-    public StoreFrame() {
+    StoreFrame() {
         this.initializeComponents();
         this.setSize(750, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,11 +17,7 @@ public class StoreFrame extends JFrame {
         this.menuItemProducts.addActionListener(e -> showProductsGUI());
         this.menuItemCustomers.addActionListener(e -> showCustomersGUI());
         this.menuItemCustomersList.addActionListener(e -> {
-            try {
-                showCustomersList();
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            showCustomersList();
         });
         this.menuItemExit.addActionListener(e -> exit());
     }
@@ -44,7 +40,7 @@ public class StoreFrame extends JFrame {
         this.desktopPane.add(frame);
     }
 
-    private void showCustomersList() throws FileNotFoundException {
+    private void showCustomersList() {
         CustomersList customersList = new CustomersList();
         JInternalFrame jIF = new CustomerListIOFrame(customersList);
         jIF.setTitle("Customers List");
