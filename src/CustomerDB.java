@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * @author Harshil
+ */
 public class CustomerDB {
 
     File file;

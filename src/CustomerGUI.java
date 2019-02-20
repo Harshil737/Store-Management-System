@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,12 +11,14 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * @author Harshil
+ */
 public class CustomerGUI extends JPanel {
     private JLabel lblCustomerID, lblName, lblPhone, lblEmail, lblPostalCode;
     private JTextField txtCustomerID, txtName, txtPhone, txtEmail, txtPostalCode;
     private JButton btnAdd, btnUpdate, btnFind, btnReset;
     private CustomerActionListener actionListener = null;
-    private JList jList;
 
     public CustomerGUI() {
         lblCustomerID = new JLabel("Customer ID");
@@ -33,7 +41,9 @@ public class CustomerGUI extends JPanel {
         btnAdd.addActionListener(new EventHandler());
         btnFind.addActionListener(new EventHandler());
         btnUpdate.addActionListener(new EventHandler());
+        btnUpdate.setEnabled(false);
         btnReset.addActionListener(new EventHandler());
+        btnReset.setEnabled(false);
 
         this.setLayout(new GridLayout(7, 2));
         this.add(lblCustomerID);
@@ -93,7 +103,7 @@ public class CustomerGUI extends JPanel {
                         JOptionPane.showMessageDialog(null, e1);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Please enter product ID.");
+                    JOptionPane.showMessageDialog(null, "Please enter customer ID.");
                 }
             } else if (e.getSource() == btnUpdate) {
                 Customer c = new Customer();
@@ -134,14 +144,14 @@ public class CustomerGUI extends JPanel {
 
         btnAdd.setEnabled(true);
         btnFind.setEnabled(true);
-        btnUpdate.setEnabled(true);
-        btnReset.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnReset.setEnabled(false);
         txtCustomerID.setEnabled(true);
     }
 
     private void find(Customer c) {
         if (c != null) {
-            txtCustomerID.setText(String.valueOf(c.getCustomerId()));
+            txtCustomerID.setText(c.getCustomerId() + "");
             txtName.setText(c.getName());
             txtPhone.setText(c.getPhone());
             txtEmail.setText(c.getEmail());
@@ -155,6 +165,10 @@ public class CustomerGUI extends JPanel {
         } else {
             JOptionPane.showMessageDialog(null, "Customer not found.");
             txtCustomerID.setText("");
+            txtName.setText("");
+            txtEmail.setText("");
+            txtPhone.setText("");
+            txtPostalCode.setText("");
         }
     }
 }

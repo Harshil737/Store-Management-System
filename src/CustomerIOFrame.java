@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CustomerIOFrame extends JInternalFrame implements CustomerActionListener {
+
     private JPanel customerIOGUI;
     private JMenuBar menuBar;
     private JMenu menu;
@@ -66,7 +67,6 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-
             } else if (e.getSource() == menuItemLoad) {
                 ArrayList<Customer> customers = customerDB.fetchToArrayList();
                 customerDB.setList(customers);
@@ -88,7 +88,7 @@ public class CustomerIOFrame extends JInternalFrame implements CustomerActionLis
     }
 
     @Override
-    public Customer onCustomerFindClick(int id) throws FileNotFoundException {
+    public Customer onCustomerFindClick(int id) {
         return customerDB.findCustomer(id);
     }
 

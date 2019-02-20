@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Harshil
  */
 public class ProductDB {
 
-    File file = null;
-    ArrayList<Product> productList;
+    File file;
+    private ArrayList<Product> productList;
 
-    public ProductDB() {
+    ProductDB() {
         file = new File("Products.txt");
         productList = new ArrayList<>();
     }
@@ -33,61 +23,16 @@ public class ProductDB {
         return productList;
     }
 
-    public void setProductList(ArrayList<Product> productList) {
+    void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 
-    public void addProduct(Product p) {
+    void addProduct(Product p) {
         this.productList.add(p);
     }
 
-    public Product findProduct(int id) throws FileNotFoundException, RangeException {
-        Product p = null;
-        Scanner input = new Scanner(file);
-        String search = "";
-        String[] searchSplit = new String[4];
-        while (input.hasNextLine()) {
-            search = input.nextLine();
-            if (!search.isEmpty()) {
-                searchSplit = search.split(":");
-                if (Integer.parseInt(searchSplit[0]) == id) {
-                    p = new Product();
-                    p.setProductId(Integer.parseInt(searchSplit[0]));
-                    p.setProductName(searchSplit[1]);
-                    p.setProductPrice(Double.parseDouble(searchSplit[2]));
-                    p.setProductQty(Integer.parseInt(searchSplit[3]));
-                }
-            }
-        }
-        return p;
-    }
-
-    public void writeToFile() throws FileNotFoundException {
-        PrintWriter out = new PrintWriter(new FileOutputStream(file, false));
-        for (Product product : productList) {
-            out.println(product.getProductId() + ":" + product.getProductName() + ":" + product.getProductPrice() + ":" + product.getProductQty());
-        }
-        out.close();
-    }
-
-    ArrayList<Product> fetchToArrayList() throws FileNotFoundException, RangeException {
-        Scanner input = new Scanner(file);
-        String search = "";
-        String[] searchSplit = new String[4];
-        ArrayList<Product> products = new ArrayList<>();
-        while (input.hasNextLine()) {
-            search = input.nextLine();
-            if (!search.isEmpty()) {
-                searchSplit = search.split(":");
-                products.add(new Product(Integer.parseInt(searchSplit[0]), searchSplit[1], Double.parseDouble(searchSplit[2]), Integer.parseInt(searchSplit[3])));
-            }
-        }
-        return products;
-    }
-
-    public boolean checkProductIdAvailable(int id) {
-        for (int i = 0; i < this.productList.size(); i++) {
-            Product p = this.productList.get(i);
+    boolean checkProductIdAvailable(int id) {
+        for (Product p : this.productList) {
             if (p.getProductId() == id) {
                 return false;
             }
@@ -95,7 +40,60 @@ public class ProductDB {
         return true;
     }
 
-    public void updateProductAtIndex(Product p) throws FileNotFoundException, RangeException {
+    void writeToFile() throws IOException {
+        DataOutputStream stream;
+        stream = new DataOutputStream(new FileOutputStream(file));
+        for (Product product : productList) {
+            stream.writeUTF(product.getProductId() + ":" + product.getProductName() + ":" + product.getProductPrice() + ":" + product.getProductQty());
+        }
+        stream.close();
+    }
+
+    Product findProduct(int id) {
+        Product p = null;
+        String search;
+        String[] searchSplit;
+
+        if (file.exists()) {
+            try {
+                DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+                while (inputStream.available() > 0) {
+                    search = inputStream.readUTF();
+                    searchSplit = search.split(":");
+                    if (Integer.parseInt(searchSplit[0]) == id) {
+                        p = new Product(Integer.parseInt(searchSplit[0]), searchSplit[1], Double.parseDouble(searchSplit[2]), Integer.parseInt(searchSplit[3]));
+                        break;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return p;
+    }
+
+
+    ArrayList<Product> fetchToArrayList() {
+        String search;
+        String[] searchSplit;
+        ArrayList<Product> list = new ArrayList<>();
+
+        if (file.exists()) {
+            try {
+                DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+                while (inputStream.available() > 0) {
+                    search = inputStream.readUTF();
+                    searchSplit = search.split(":");
+                    list.add(new Product(Integer.parseInt(searchSplit[0]), searchSplit[1], Double.parseDouble(searchSplit[2]), Integer.parseInt(searchSplit[3])));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
+    void updateProductAtIndex(Product p) throws IOException {
         this.productList = fetchToArrayList();
         this.productList.set(productList.indexOf(p), p);
         writeToFile();

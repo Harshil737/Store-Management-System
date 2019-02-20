@@ -8,12 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author Harshil
  */
 public class ProductGUI extends JPanel {
-
     private JLabel lblProductID, lblProductName, lblProductPrice, lblQty;
     private JTextField txtProductID, txtProductName, txtProductPrice, txtQty;
     private JButton btnAdd, btnUpdate, btnFind, btnReset;
@@ -84,30 +85,25 @@ public class ProductGUI extends JPanel {
 
                 try {
                     p.setProductPrice(Double.parseDouble(txtProductPrice.getText()));
-                } catch (NumberFormatException | RangeException ex) {
+                } catch (RangeException e1) {
                     JOptionPane.showMessageDialog(null, "Invalid Product Price");
                     return;
                 }
 
                 try {
                     p.setProductQty(Integer.parseInt(txtQty.getText()));
-                } catch (NumberFormatException | RangeException ex) {
+                } catch (RangeException e1) {
                     JOptionPane.showMessageDialog(null, "Invalid Product QTY");
                     return;
                 }
 
-                txtProductID.setText("");
-                txtProductID.setEditable(true);
-                txtProductName.setText("");
-                txtProductPrice.setText("");
-                txtQty.setText("");
+                reset();
 
                 actionClickListner.onProductAddClick(p);
             } else if (e.getSource() == btnUpdate) {
                 Product p = new Product();
                 try {
-                    int productID = Integer.parseInt(txtProductID.getText());
-                    p.setProductId(productID);
+                    p.setProductId(Integer.parseInt(txtProductID.getText()));
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Product ID");
                     return;
@@ -128,14 +124,22 @@ public class ProductGUI extends JPanel {
                     JOptionPane.showMessageDialog(null, "Invalid Product QTY");
                     return;
                 }
-                actionClickListner.onProductUpdate(p);
-                JOptionPane.showMessageDialog(null, "Product updated.");
-                reset();
+                try {
+                    actionClickListner.onProductUpdate(p);
+                    JOptionPane.showMessageDialog(null, "Product updated.");
+                    reset();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             } else if (e.getSource() == btnFind) {
                 if (!txtProductID.getText().isEmpty()) {
-                    Product p = new Product();
-                    p = actionClickListner.onProductFind(Integer.parseInt(txtProductID.getText()));
-                    find(p);
+                    Product p;
+                    try {
+                        p = actionClickListner.onProductFind(Integer.parseInt(txtProductID.getText()));
+                        find(p);
+                    } catch (FileNotFoundException | NumberFormatException e1) {
+                        JOptionPane.showMessageDialog(null, e1);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Please enter product id.");
                 }
@@ -152,6 +156,7 @@ public class ProductGUI extends JPanel {
             txtProductName.setText(p.getProductName());
             txtProductPrice.setText(p.getProductPrice() + "");
             txtQty.setText(p.getProductQty() + "");
+
             btnAdd.setEnabled(false);
             btnUpdate.setEnabled(true);
             btnReset.setEnabled(true);
@@ -172,6 +177,7 @@ public class ProductGUI extends JPanel {
         txtProductName.setText("");
         txtProductPrice.setText("");
         txtQty.setText("");
+
         btnUpdate.setEnabled(false);
         btnReset.setEnabled(false);
         btnAdd.setEnabled(true);
