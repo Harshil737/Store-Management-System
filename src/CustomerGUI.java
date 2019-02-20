@@ -14,13 +14,13 @@ import java.io.IOException;
 /**
  * @author Harshil
  */
-public class CustomerGUI extends JPanel {
+class CustomerGUI extends JPanel {
     private JLabel lblCustomerID, lblName, lblPhone, lblEmail, lblPostalCode;
     private JTextField txtCustomerID, txtName, txtPhone, txtEmail, txtPostalCode;
     private JButton btnAdd, btnUpdate, btnFind, btnReset;
     private CustomerActionListener actionListener = null;
 
-    public CustomerGUI() {
+    CustomerGUI() {
         lblCustomerID = new JLabel("Customer ID");
         lblName = new JLabel("Name");
         lblPhone = new JLabel("Phone");
@@ -62,7 +62,7 @@ public class CustomerGUI extends JPanel {
         this.add(btnReset);
     }
 
-    public void setActionListener(CustomerActionListener actionListener) {
+    void setActionListener(CustomerActionListener actionListener) {
         this.actionListener = actionListener;
     }
 

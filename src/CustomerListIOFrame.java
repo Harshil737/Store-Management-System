@@ -4,16 +4,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-public class CustomerListIOFrame extends JInternalFrame {
-    private JPanel customerIOGUI;
+class CustomerListIOFrame extends JInternalFrame {
     private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem menuItemExit;
     private CustomerDB customerDB;
 
-    public CustomerListIOFrame(JPanel customerIOGUI) {
+    CustomerListIOFrame(JPanel customerIOGUI) {
         customerDB = new CustomerDB();
-        this.customerIOGUI = customerIOGUI;
         this.add(customerIOGUI);
         this.setSize(400, 200);
         this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);

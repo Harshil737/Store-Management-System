@@ -7,9 +7,9 @@
 /**
  * @author Harshil
  */
-public class RangeException extends Exception {
+class RangeException extends Exception {
 
-    public RangeException(String message) {
+    RangeException(String message) {
         super(message);
     }
 }

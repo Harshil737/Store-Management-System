@@ -14,13 +14,13 @@ import java.io.IOException;
 /**
  * @author Harshil
  */
-public class ProductGUI extends JPanel {
+class ProductGUI extends JPanel {
     private JLabel lblProductID, lblProductName, lblProductPrice, lblQty;
     private JTextField txtProductID, txtProductName, txtProductPrice, txtQty;
     private JButton btnAdd, btnUpdate, btnFind, btnReset;
     private ProductActionClickListner actionClickListner = null;
 
-    public ProductGUI() {
+    ProductGUI() {
         lblProductID = new JLabel("Product ID");
         lblProductName = new JLabel("Product Name");
         lblProductPrice = new JLabel("Product Price");
@@ -58,7 +58,7 @@ public class ProductGUI extends JPanel {
         this.add(btnReset);
     }
 
-    public void setActionClickListner(ProductActionClickListner actionClickListner) {
+    void setActionClickListner(ProductActionClickListner actionClickListner) {
         this.actionClickListner = actionClickListner;
     }
 
@@ -150,7 +150,7 @@ public class ProductGUI extends JPanel {
 
     }
 
-    public void find(Product p) {
+    private void find(Product p) {
         if (p != null) {
             txtProductID.setText(p.getProductId() + "");
             txtProductName.setText(p.getProductName());
@@ -172,7 +172,7 @@ public class ProductGUI extends JPanel {
 
     }
 
-    public void reset() {
+    private void reset() {
         txtProductID.setText("");
         txtProductName.setText("");
         txtProductPrice.setText("");

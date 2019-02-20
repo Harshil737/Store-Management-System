@@ -19,7 +19,7 @@ public class ProductIOFrame extends JInternalFrame implements ProductActionClick
     private JMenuItem menuItemExit;
     private ProductDB productDB;
 
-    public ProductIOFrame(ProductGUI product) {
+    ProductIOFrame(ProductGUI product) {
         productIOGUI = product;
         this.productDB = new ProductDB();
         ((ProductGUI) productIOGUI).setActionClickListner(this);

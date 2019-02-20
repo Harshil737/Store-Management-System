@@ -72,7 +72,6 @@ public class ProductDB {
         return p;
     }
 
-
     ArrayList<Product> fetchToArrayList() {
         String search;
         String[] searchSplit;

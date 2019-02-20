@@ -60,8 +60,8 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "\nCustomer Details\n\n" +
-                "Customer ID = " + customerId +
+        return "\nCustomer Details\n" +
+                "\nCustomer ID = " + customerId +
                 "\n Name = " + name +
                 "\n Phone = " + phone +
                 "\n Email = " + email +
